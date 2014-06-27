@@ -14,7 +14,6 @@ class ActionViewController: UIViewController {
 
     @IBOutlet var imageView :UIImageView
     var convertedImage : UIImage?
-    var mainImage :UIImage?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,10 +28,10 @@ class ActionViewController: UIViewController {
                     itemProvider.loadItemForTypeIdentifier(kUTTypeImage, options: nil, completionHandler: { (image, error) in
                         if image {
                             let colorCubeImage = UIImage(named: "colorCube_inverse")
-                            self.convertedImage = ImageFilterProcess.processImage(image: image as UIImage, withColorCubeImage: colorCubeImage)
+                            let context = CIContext(options: nil)
+                            self.convertedImage = ImageFilterProcess.processImage(image: image as UIImage, onContext: context, withColorCubeImage: colorCubeImage)
                             dispatch_async(dispatch_get_main_queue(), {
                                 self.imageView.image = self.convertedImage!
-                                self.mainImage = image as? UIImage
                                 })
                         }
                         })
