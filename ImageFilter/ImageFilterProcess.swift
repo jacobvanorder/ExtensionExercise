@@ -36,22 +36,8 @@ class ImageFilterProcess: NSObject {
         let outgoingCIImage = colorCubeFilter.valueForKey(kCIOutputImageKey) as CIImage
         
         let cgImage = context.createCGImage(outgoingCIImage, fromRect: outgoingCIImage.extent())
+        let returnUIImage = UIImage(CGImage: cgImage)
         
-        return UIImage(CGImage: cgImage)
-        
-        
-        
-//        var coreImage = CIImage(image: image) as CIImage?
-//        if let checkedCoreImage = coreImage {
-//            colorCubeFilter.setValue(checkedCoreImage, forKey: kCIInputImageKey)
-//            let outputCoreImage = colorCubeFilter.valueForKey(kCIOutputImageKey) as CIImage
-//            if let checkedOutputCoreImage = outputCoreImage as CIImage? {
-//                if let returnImage = UIImage(CIImage: checkedOutputCoreImage) as UIImage? {
-//                    return (returnImage.copy() as UIImage)
-//                }
-//            }
-//        }
-//        
-//        return nil
+        return returnUIImage
     }
 }

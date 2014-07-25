@@ -9,11 +9,18 @@
 import UIKit
 import MobileCoreServices
 import ImageFilter
+import OpenGLES
 
 class ActionViewController: UIViewController {
 
     @IBOutlet var imageView :UIImageView
     var convertedImage : UIImage?
+    
+    @lazy var context : CIContext = {
+        let eagleContext = EAGLContext(API: .OpenGLES2)
+        let ciContext = CIContext(EAGLContext: eagleContext)
+        return ciContext
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,8 +35,8 @@ class ActionViewController: UIViewController {
                     itemProvider.loadItemForTypeIdentifier(kUTTypeImage, options: nil, completionHandler: { (image, error) in
                         if image {
                             let colorCubeImage = UIImage(named: "colorCube_inverse")
-                            let context = CIContext(options: nil)
-                            self.convertedImage = ImageFilterProcess.processImage(image: image as UIImage, onContext: context, withColorCubeImage: colorCubeImage)
+
+                            self.convertedImage = ImageFilterProcess.processImage(image: image as UIImage, onContext: self.context, withColorCubeImage: colorCubeImage)
                             dispatch_async(dispatch_get_main_queue(), {
                                 self.imageView.image = self.convertedImage!
                                 })
